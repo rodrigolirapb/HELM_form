@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HELM — Design Partner Program</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles.css">
+<script src="ds-bundle.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  @keyframes hlPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+</style>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#00AF60"/>
+    <circle cx="50" cy="50" r="22" fill="none" stroke="#fff" stroke-width="4"/>
+    <line x1="50" y1="28" x2="50" y2="72" stroke="#fff" stroke-width="4"/>
+    <line x1="28" y1="50" x2="72" y2="50" stroke="#fff" stroke-width="4"/>
+  </svg>
+</template>
+</head>
+<body style="margin:0; background:#fff;">
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+
+const { Button, Input, Badge, Avatar } = window.HELMDesignSystem_92e375;
+
+const roles = {
+  pm: {
+    label: 'Project Manager', project: 'Riverside Townhomes · Phase 2', caption: 'Schedule · Week of Jun 18',
+    rows: [
+      { name: 'Foundation', sub: 'Concrete pour', status: 'approved' },
+      { name: 'Framing', sub: 'Apex Framing Ltd', status: 'at-risk' },
+      { name: 'Electrical', sub: 'Brightline Electric', status: 'upcoming' },
+    ],
+    footnote: 'Client + 3 subs viewing live · No login required',
+  },
+  sub: {
+    label: 'Subcontractor', project: 'Apex Framing · Your Tasks', caption: 'No account needed — see only your tasks',
+    rows: [
+      { name: 'Framing – Unit A', sub: 'Starts Jun 25 · 8 days', status: 'at-risk' },
+      { name: 'Framing – Unit B', sub: 'Starts Jul 5 · 6 days', status: 'upcoming' },
+      { name: 'Roof rough framing', sub: 'Starts Jul 14 · 4 days', status: 'upcoming' },
+    ],
+    footnote: 'Progress updates reach the GC instantly',
+  },
+  client: {
+    label: 'Client', project: 'Riverside Client Portal', caption: 'Milestones requiring your review',
+    rows: [
+      { name: 'Foundation complete', sub: 'Jun 15, 2026', status: 'approved' },
+      { name: 'Framing complete', sub: 'Jul 12, 2026', status: 'awaiting' },
+      { name: 'Rough-in inspection', sub: 'Aug 5, 2026', status: 'upcoming' },
+    ],
+    footnote: 'One-click approvals — logged and timestamped',
+  },
+  field: {
+    label: 'Field Crew', project: 'Your Project · Riverside Ph. 2', caption: 'Mobile-first, works offline',
+    rows: [
+      { name: 'Foundation', sub: 'Done', status: 'approved' },
+      { name: 'Framing', sub: 'In progress', status: 'at-risk' },
+      { name: 'Electrical', sub: 'Upcoming', status: 'upcoming' },
+    ],
+    footnote: 'Mark complete from site — the PM sees it live',
+  },
+};
+
+const flowSteps = [
+  { n: 1, title: 'Build your schedule in minutes', body: 'Create phases, assign tasks to trades and vendors, set durations and dependencies. Your first schedule takes under 5 minutes.' },
+  { n: 2, title: 'Share a live link', body: 'No login, no PDF. Your client sees the live schedule in their browser. Subs see only their tasks.' },
+  { n: 3, title: 'Everyone stays in sync', body: 'When a task moves, notifications go out immediately. No more "I didn\'t know it changed" on site.' },
+];
+
+const stats = [
+  { n: '73%', c: 'fewer client update calls' },
+  { n: '4.2h', c: 'saved per PM per week' },
+  { n: '$0', c: 'for external stakeholders, always' },
+  { n: '5 min', c: 'to your first live schedule' },
+];
+
+const deepDives = [
+  {
+    eyebrow: 'Live Gantt schedule', title: 'Built for how schedules actually change.',
+    body: "Phases, tasks, dependencies, and milestones — drag to replan, and dependencies cascade automatically. Updates push to everyone the moment you make them.",
+    imageFirst: true,
+    mockRows: [
+      { label: 'Foundation', value: 'On Track', status: 'on-track' },
+      { label: 'Framing', value: 'At Risk', status: 'at-risk' },
+      { label: 'Electrical', value: 'Upcoming', status: 'upcoming' },
+    ],
+  },
+  {
+    eyebrow: 'External stakeholder portal', title: 'Clients stop asking "where are we?"',
+    body: "A live, link-based view — no account, no download, no stale PDF. Milestone approvals are logged and timestamped, right in the portal.",
+    imageFirst: false,
+    mockRows: [
+      { label: 'Foundation complete', value: '✓ Approved', status: 'approved' },
+      { label: 'Framing complete', value: '⏳ Awaiting', status: 'awaiting' },
+      { label: 'Rough-in inspection', value: 'Upcoming', status: 'upcoming' },
+    ],
+  },
+  {
+    eyebrow: 'AI copilot', title: 'Ask your schedule a question.',
+    body: "\"What's delaying Phase 2?\" or \"Generate a recovery schedule.\" Answers in seconds, not spreadsheets — so you catch problems before your client does.",
+    imageFirst: true,
+    mockRows: [
+      { label: 'You asked', value: 'Delaying Phase 2?', status: 'upcoming' },
+      { label: 'HELM AI', value: 'Framing, 3 days', status: 'at-risk' },
+      { label: 'Recovery plan', value: 'Generated', status: 'approved' },
+    ],
+  },
+];
+
+const comparisonRows = [
+  { label: 'Client sees schedule', them: 'Emailed PDF, already stale', us: 'Live link, always current' },
+  { label: 'Client needs an account', them: 'Often yes', us: 'Never' },
+  { label: 'Cost for clients & subs', them: 'Extra seats/licenses', us: '$0, always' },
+  { label: 'When a task moves', them: 'You re-export and re-send', us: 'Everyone is notified instantly' },
+];
+
+const testimonials = [
+  { q: "My clients used to call twice a week asking where things stood. Since HELM, they just check the portal. Those calls have basically stopped.", initials: 'MR', name: 'Mike R.', role: 'GC · Toronto, ON · 12 active projects' },
+  { q: "We were running MS Project and sharing PDFs by email. HELM replaced both in a week. The subcontractor portal alone is worth the subscription.", initials: 'JT', name: 'James T.', role: 'PM · Calgary, AB · Residential builder' },
+  { q: "I built my first Gantt in 4 minutes. I've been drawing these in Excel for 8 years. HELM should have existed a long time ago.", initials: 'SP', name: 'Sandra P.', role: 'Owner · Vancouver, BC · Custom builds' },
+];
+
+const faqData = [
+  { q: 'Does my client need to create an account?', a: 'No. Clients and subcontractors access their portal through a link you send them. No signup, no download, no password.' },
+  { q: 'How is HELM different from MS Project or Smartsheet?', a: "Neither was designed for construction teams sharing schedules externally. HELM is purpose-built for GCs and trades — you're live in 5 minutes, and your client sees it without logging in." },
+  { q: 'Is there a free trial?', a: 'Yes. All plans include a 14-day free trial with no credit card required.' },
+];
+
+function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+
+function Page() {
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [company, setCompany] = React.useState('');
+  const [tool, setTool] = React.useState('');
+  const [touched, setTouched] = React.useState(false);
+  const [submitted, setSubmitted] = React.useState(false);
+  const [spotsRemaining, setSpotsRemaining] = React.useState(10);
+  const [activeRoleKey, setActiveRoleKey] = React.useState('pm');
+  const [openFaq, setOpenFaq] = React.useState(0);
+
+  const activeRole = roles[activeRoleKey];
+  const emailError = touched && !isValidEmail(email) ? 'Enter a valid email' : undefined;
+  const submitDisabled = !name.trim() || !company.trim() || !tool.trim() || !isValidEmail(email);
+
+  function handleSubmit() {
+    setTouched(true);
+    if (!name.trim() || !company.trim() || !tool.trim() || !isValidEmail(email)) return;
+    setSubmitted(true);
+    setSpotsRemaining((s) => Math.max(0, s - 1));
+  }
+
+  return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg-page)', fontFamily: 'var(--font-sans)', color: 'var(--text-primary)' }}>
+
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(6px)', position: 'sticky', top: 0, zIndex: 20 }}>
+        <div style={{ maxWidth: 1080, margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <img src="assets/helm-mark.svg" style={{ height: 26 }} />
+            <img src="assets/helm-wordmark.svg" style={{ height: 15, color: 'var(--gray-900)' }} />
+          </div>
+          <a href="#apply" style={{ textDecoration: 'none' }}>
+            <Button size="sm">Claim a spot</Button>
+          </a>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: '80px 24px 40px', textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--brand-soft)', color: 'var(--brand-strong)', padding: '6px 14px', borderRadius: 'var(--radius-full)', font: 'var(--text-label)' }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--brand)', display: 'inline-block', animation: 'hlPulse 2s ease-in-out infinite' }} />
+          {`Selecting ${spotsRemaining} design partners`}
+        </div>
+        <h1 style={{ font: 'var(--text-display)', letterSpacing: 'var(--tracking-tight)', marginTop: 24 }}>
+          Every stakeholder, <span style={{ color: 'var(--brand-strong)', fontStyle: 'italic' }}>on the same schedule.</span>
+        </h1>
+        <p style={{ font: 'var(--text-body-lg)', color: 'var(--text-secondary)', maxWidth: 560, margin: '16px auto 0' }}>
+          Stop exporting PDFs that are outdated by lunch. HELM is the one live schedule your team, subs, and clients all watch update in real time — and we're opening it to 10 GCs before anyone else gets in.
+        </p>
+
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginTop: 28 }}>
+          {Object.keys(roles).map((key) => {
+            const isActive = key === activeRoleKey;
+            return (
+              <div key={key} onClick={() => setActiveRoleKey(key)}
+                style={{
+                  cursor: 'pointer', padding: '8px 16px', borderRadius: 'var(--radius-full)', font: 'var(--text-label)',
+                  border: `1px solid ${isActive ? 'var(--brand)' : 'var(--border-default)'}`,
+                  background: isActive ? 'var(--brand)' : '#fff',
+                  color: isActive ? '#fff' : 'var(--text-secondary)',
+                  transition: 'all var(--duration-fast) var(--ease-standard)',
+                }}>
+                {roles[key].label}
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ marginTop: 28 }}>
+          <a href="#apply" style={{ textDecoration: 'none' }}>
+            <Button size="lg">Claim a design partner spot</Button>
+          </a>
+          <div style={{ font: 'var(--text-body-sm)', color: 'var(--text-tertiary)', marginTop: 14 }}>Free forever for every client and subcontractor you invite.</div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 900, margin: '0 auto 72px', padding: '0 24px' }}>
+        <div style={{ background: '#fff', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-lg)', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 22px', borderBottom: '1px solid var(--border-subtle)' }}>
+            <div style={{ font: 'var(--text-h4)' }}>{activeRole.project}</div>
+            <Badge status="on-track" />
+          </div>
+          <div style={{ padding: 22 }}>
+            <div style={{ font: 'var(--text-body-sm)', color: 'var(--text-secondary)', marginBottom: 14 }}>{activeRole.caption}</div>
+            {activeRole.rows.map((row) => (
+              <div key={row.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginBottom: 14, paddingBottom: 14, borderBottom: '1px solid var(--border-subtle)' }}>
+                <div style={{ font: 'var(--text-body-sm)', fontWeight: 700 }}>{row.name}<div style={{ font: 'var(--text-body-sm)', color: 'var(--text-tertiary)', fontWeight: 400 }}>{row.sub}</div></div>
+                <Badge status={row.status} />
+              </div>
+            ))}
+            <div style={{ font: 'var(--text-body-sm)', color: 'var(--text-tertiary)', marginTop: 4 }}>{activeRole.footnote}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ background: 'var(--surface-sunken)', padding: '64px 24px' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 40px' }}>
+            <div style={{ font: 'var(--text-eyebrow)', letterSpacing: 'var(--tracking-eyebrow)', color: 'var(--brand-strong)', textTransform: 'uppercase', marginBottom: 10 }}>How it works</div>
+            <h2 style={{ font: 'var(--text-h2)' }}>From your desk to the field to your client — live.</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+            {flowSteps.map((step) => (
+              <div key={step.n} style={{ background: '#fff', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 24, boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--helm-green-gradient)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', font: 'var(--text-label)', marginBottom: 16 }}>{step.n}</div>
+                <div style={{ font: 'var(--text-h4)', marginBottom: 6 }}>{step.title}</div>
+                <div style={{ font: 'var(--text-body-sm)', color: 'var(--text-secondary)' }}>{step.body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: '56px 24px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+          {stats.map((stat) => (
+            <div key={stat.c} style={{ textAlign: 'center' }}>
+              <div style={{ font: 'var(--text-display)', fontSize: 40, color: 'var(--brand-strong)' }}>{stat.n}</div>
+              <div style={{ font: 'var(--text-body-sm)', color: 'var(--text-secondary)', marginTop: 6 }}>{stat.c}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 960, margin: '0 auto', padding: '24px 24px 80px', display: 'flex', flexDirection: 'column', gap: 72 }}>
+        {deepDives.map((dd) => (
+          <div key={dd.title} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+            {dd.imageFirst && (
+              <div style={{ background: '#fff', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 20, boxShadow: 'var(--shadow-sm)' }}>
+                {dd.mockRows.map((mr) => (
+                  <div key={mr.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border-subtle)', gap: 12 }}>
+                    <div style={{ font: 'var(--text-body-sm)', fontWeight: 600 }}>{mr.label}</div>
+                    <Badge status={mr.status} dot={false}>{mr.value}</Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div>
+              <div style={{ font: 'var(--text-eyebrow)', letterSpacing: 'var(--tracking-eyebrow)', color: 'var(--brand-strong)', textTransform: 'uppercase', marginBottom: 10 }}>{dd.eyebrow}</div>
+              <h3 style={{ font: 'var(--text-h2)' }}>{dd.title}</h3>
+              <p style={{ font: 'var(--text-body)', color: 'var(--text-secondary)', marginTop: 12 }}>{dd.body}</p>
+            </div>
+            {!dd.imageFirst && (
+              <div style={{ background: '#fff', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 20, boxShadow: 'var(--shadow-sm)' }}>
+                {dd.mockRows.map((mr) => (
+                  <div key={mr.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border-subtle)', gap: 12 }}>
+                    <div style={{ font: 'var(--text-body-sm)', fontWeight: 600 }}>{mr.label}</div>
+                    <Badge status={mr.status} dot={false}>{mr.value}</Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 24px 80px' }}>
+        <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 32px' }}>
+          <div style={{ font: 'var(--text-eyebrow)', letterSpacing: 'var(--tracking-eyebrow)', color: 'var(--brand-strong)', textTransform: 'uppercase', marginBottom: 10 }}>Why teams switch</div>
+          <h2 style={{ font: 'var(--text-h2)' }}>Everyone else makes you choose. HELM doesn't.</h2>
+        </div>
+        <div style={{ background: '#fff', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-md)', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', font: 'var(--text-label)' }}>
+            <div style={{ padding: '16px 20px', color: 'var(--text-tertiary)' }} />
+            <div style={{ padding: '16px 20px', color: 'var(--text-tertiary)', borderLeft: '1px solid var(--border-subtle)', textAlign: 'center' }}>MS Project / Smartsheet</div>
+            <div style={{ padding: '16px 20px', color: 'var(--brand-strong)', borderLeft: '1px solid var(--border-subtle)', textAlign: 'center', background: 'var(--brand-soft)' }}>HELM</div>
+          </div>
+          {comparisonRows.map((row) => (
+            <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', borderTop: '1px solid var(--border-subtle)', font: 'var(--text-body-sm)' }}>
+              <div style={{ padding: '16px 20px', color: 'var(--text-primary)', fontWeight: 600 }}>{row.label}</div>
+              <div style={{ padding: '16px 20px', color: 'var(--text-tertiary)', borderLeft: '1px solid var(--border-subtle)', textAlign: 'center' }}>{row.them}</div>
+              <div style={{ padding: '16px 20px', color: 'var(--status-on-track-fg)', borderLeft: '1px solid var(--border-subtle)', textAlign: 'center', background: 'var(--brand-soft)', fontWeight: 600 }}>{row.us}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ background: 'var(--surface-sunken)', padding: '72px 24px' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', font: 'var(--text-eyebrow)', letterSpacing: 'var(--tracking-eyebrow)', color: 'var(--text-tertiary)', textTransform: 'uppercase', marginBottom: 20 }}>Trusted by construction teams across Canada</div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 36, flexWrap: 'wrap', font: 'var(--text-body-sm)', fontWeight: 700, color: 'var(--gray-400)', marginBottom: 48 }}>
+            <div>Maple Ridge Builders</div><div>Pacific Trades Co.</div><div>Summit GC</div><div>Northway Construction</div><div>Prairie Build Group</div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+            {testimonials.map((t) => (
+              <div key={t.name} style={{ background: '#fff', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 24, boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ font: 'var(--text-body)', color: 'var(--text-primary)', marginBottom: 20 }}>{`"${t.q}"`}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <Avatar initials={t.initials} size="sm" color="neutral" />
+                  <div>
+                    <div style={{ font: 'var(--text-label)' }}>{t.name}</div>
+                    <div style={{ font: 'var(--text-body-sm)', color: 'var(--text-tertiary)' }}>{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div id="apply" style={{ background: 'var(--gray-900)', padding: '72px 24px' }}>
+        <div style={{ maxWidth: 420, margin: '0 auto' }}>
+          {submitted ? (
+            <div style={{ background: '#fff', borderRadius: 'var(--radius-xl)', padding: 32, textAlign: 'center', boxShadow: 'var(--shadow-lg)' }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--brand-soft)', color: 'var(--brand-strong)', display: 'flex', alignItems: 'center', justifyContent: 'center', font: 'var(--text-h4)', margin: '0 auto 16px' }}>✓</div>
+              <div style={{ font: 'var(--text-h3)' }}>Application received.</div>
+              <div style={{ font: 'var(--text-body)', color: 'var(--text-secondary)', marginTop: 10 }}>We review every application personally. Expect a call at {email} within 24 hours — not an email drip.</div>
+            </div>
+          ) : (
+            <div style={{ background: '#fff', borderRadius: 'var(--radius-xl)', padding: 32, boxShadow: 'var(--shadow-lg)' }}>
+              <div style={{ font: 'var(--text-h3)', marginBottom: 4 }}>Apply for a design partner spot</div>
+              <div style={{ font: 'var(--text-body-sm)', color: 'var(--text-secondary)', marginBottom: 24 }}>Four questions. We call every applicant ourselves within 24 hours.</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <Input label="Name" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)} />
+                <Input label="Email" type="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} error={emailError} />
+                <Input label="Company" placeholder="Your company" value={company} onChange={(e) => setCompany(e.target.value)} />
+                <Input label="Current scheduling tool" placeholder="MS Project, Smartsheet, Excel…" value={tool} onChange={(e) => setTool(e.target.value)} />
+              </div>
+              <div style={{ marginTop: 24 }}>
+                <Button fullWidth onClick={handleSubmit} disabled={submitDisabled}>Submit application</Button>
+              </div>
+              <div style={{ font: 'var(--text-body-sm)', color: 'var(--gray-400)', textAlign: 'center', marginTop: 14 }}>{`${spotsRemaining} of 10 spots remaining`}</div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div style={{ padding: '72px 24px', background: '#fff' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <div style={{ font: 'var(--text-eyebrow)', letterSpacing: 'var(--tracking-eyebrow)', color: 'var(--brand-strong)', textTransform: 'uppercase', marginBottom: 10 }}>FAQ</div>
+            <h2 style={{ font: 'var(--text-h2)' }}>Common questions.</h2>
+          </div>
+          {faqData.map((faq, i) => (
+            <div key={faq.q} onClick={() => setOpenFaq(openFaq === i ? -1 : i)} style={{ border: '1px solid var(--border-default)', borderRadius: 'var(--radius-md)', marginBottom: 10, overflow: 'hidden', cursor: 'pointer' }}>
+              <div style={{ padding: '16px 20px', font: 'var(--text-h4)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {faq.q}<span style={{ color: 'var(--text-tertiary)', fontWeight: 400 }}>{openFaq === i ? '−' : '+'}</span>
+              </div>
+              {openFaq === i && <div style={{ padding: '0 20px 18px', font: 'var(--text-body-sm)', color: 'var(--text-secondary)' }}>{faq.a}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ padding: '28px 24px', textAlign: 'center', font: 'var(--text-body-sm)', color: 'var(--text-tertiary)', borderTop: '1px solid var(--border-subtle)' }}>
+        HELM · Construction scheduling · Built for Canada
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Page />);
+</script>
+</body>
+</html>

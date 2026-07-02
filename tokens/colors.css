@@ -1,0 +1,78 @@
+:root {
+  /* ---- Brand green (from logo mark gradient) ---- */
+  --helm-green-50:  #EAFBF3;
+  --helm-green-100: #CFF6E2;
+  --helm-green-200: #9FEDC5;
+  --helm-green-300: #63DEA3;
+  --helm-green-400: #2FCE86;
+  --helm-green-500: #14D67F; /* logo gradient start */
+  --helm-green-600: #00AF60; /* logo gradient end */
+  --helm-green-700: #00954F;
+  --helm-green-800: #077A43;
+  --helm-green-900: #0A5F37;
+  --helm-green-gradient: linear-gradient(90deg, #14D67F 0%, #00AF60 100%); /* @kind color */
+
+  /* ---- Neutrals: cool steel/charcoal grays (construction, blueprint-adjacent) ---- */
+  --gray-0:   #FFFFFF;
+  --gray-25:  #FAFBFA;
+  --gray-50:  #F4F6F5;
+  --gray-100: #E9ECEA;
+  --gray-200: #D7DCD9;
+  --gray-300: #B9C1BC;
+  --gray-400: #8D9891;
+  --gray-500: #6B756F;
+  --gray-600: #525B55;
+  --gray-700: #3D4440;
+  --gray-800: #262B28;
+  --gray-900: #161917;
+
+  /* ---- Status semantics (schedule health, milestone states) ---- */
+  --status-on-track-bg: var(--helm-green-50);
+  --status-on-track-fg: var(--helm-green-700);
+  --status-on-track-dot: var(--helm-green-500);
+
+  --status-at-risk-bg: #FFF4E2;
+  --status-at-risk-fg: #8A5A00;
+  --status-at-risk-dot: #F5A623;
+
+  --status-delayed-bg: #FDECEC;
+  --status-delayed-fg: #B3261E;
+  --status-delayed-dot: #E5484D;
+
+  --status-upcoming-bg: var(--gray-100);
+  --status-upcoming-fg: var(--gray-600);
+  --status-upcoming-dot: var(--gray-400);
+
+  --status-approved-bg: var(--helm-green-50);
+  --status-approved-fg: var(--helm-green-700);
+
+  --status-awaiting-bg: #FFF4E2;
+  --status-awaiting-fg: #8A5A00;
+
+  /* ---- Semantic aliases ---- */
+  --brand: var(--helm-green-600);
+  --brand-strong: var(--helm-green-700);
+  --brand-soft: var(--helm-green-50);
+
+  --bg-page: var(--gray-25);
+  --bg-canvas: #FFFFFF;
+  --surface-card: #FFFFFF;
+  --surface-raised: #FFFFFF;
+  --surface-sunken: var(--gray-50);
+  --surface-inverse: var(--gray-900);
+
+  --text-primary: var(--gray-900);
+  --text-secondary: var(--gray-600);
+  --text-tertiary: var(--gray-500);
+  --text-on-brand: #FFFFFF;
+  --text-link: var(--helm-green-700);
+
+  --border-subtle: var(--gray-100);
+  --border-default: var(--gray-200);
+  --border-strong: var(--gray-300);
+  --border-focus: var(--helm-green-500);
+
+  --icon-default: var(--gray-500);
+  --icon-strong: var(--gray-700);
+  --icon-brand: var(--helm-green-600);
+}
